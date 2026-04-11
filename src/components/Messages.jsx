@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { supabase } from '../supabaseClient'
 import { Message } from './Message';
+import { Header } from './Header';
 
 export const Messages = () => {
 
@@ -17,7 +18,7 @@ export const Messages = () => {
 
   return (
     <section className='messages'>
-      messages
+      <Header/>
       <div className='content'>
         {
           messages && 

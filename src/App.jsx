@@ -1,16 +1,29 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { Messages } from './components/Messages'
+import { Login } from './components/Login'
+import { supabase } from './supabaseClient'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [session, setSession] = useState(null);
+
+  const getSession = async () => {
+    const {data} = await supabase.auth.getSession();
+    setSession(data.session);
+  }
+
+  useEffect(() => {
+    getSession();
+  }, [])
 
   return (
     <div className="App">
       <h1>Whatsapp clone</h1>
-      <Messages/>
+      <p>ReactJs & Supabase</p>
+      {session ? <Messages/> : <Login/>}
+
     </div>
   )
 }
