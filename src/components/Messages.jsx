@@ -17,6 +17,28 @@ export const Messages = () => {
     callSupabase();
   }, [])
 
+  useEffect(() => {
+    const chanel = supabase
+      .channel("messages-channel")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "messages"
+        },
+        (payload) => {
+          const newMessage = payload.new;
+          setMessages(messages => [...messages, newMessage]);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(chanel);
+    }
+  }, [])
+
   return (
     <section className='messages'>
       <Header/>
