@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { supabase } from '../supabaseClient'
 import { Message } from './Message';
 import { Header } from './Header';
+import { SendMessage } from './SendMessage';
 
 export const Messages = () => {
 
@@ -32,6 +33,7 @@ export const Messages = () => {
           ))
         }
       </div>
+      <SendMessage/>
     </section>
   )
 }

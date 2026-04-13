@@ -147,17 +147,17 @@ button {
 .card span {
   font-size: 11px;
 }
-/* send mesage */
-.send-mesage {
+/* send message */
+.send-message {
   position: sticky;
   bottom: 0;
   padding: 10px;
 }
-.send-mesage form {
+.send-message form {
   display: flex;
   gap: 10px;
 }
-.send-mesage input {
+.send-message input {
   padding: 10px;
   padding-left: 15px;
   border: 0;
@@ -167,7 +167,7 @@ button {
   outline: none;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
-.send-mesage button {
+.send-message button {
   background-color: #04A686;
   border: 0;
   border-radius: 50%;
@@ -178,10 +178,10 @@ button {
   cursor: pointer;
   transition: .3s;
 }
-.send-mesage button:hover {
+.send-message button:hover {
   transform: scale(1.1);
 }
-.send-mesage button svg {
+.send-message button svg {
   width: 18px;
   height: 18px;
 }

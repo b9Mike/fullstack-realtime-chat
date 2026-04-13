@@ -18,7 +18,7 @@ export const Header = () => {
   const getSession = async () => {
     const {data} = await supabase.auth.getSession();
     setUser(data.session.user.email);
-
+    
     if(data.session.user.user_metadata.avatar_url){
       setImage(data.session.user.user_metadata.avatar_url)
     }
