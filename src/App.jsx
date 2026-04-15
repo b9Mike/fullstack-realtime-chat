@@ -3,7 +3,9 @@ import './App.css'
 import { Messages } from './components/Messages'
 import { Login } from './components/Login'
 import { supabase } from './supabaseClient'
+import {createUserIfNotExists } from './helpers/createUserIfNotExists'
 
+ 
 function App() {
   const [session, setSession] = useState(null);
 
@@ -13,8 +15,17 @@ function App() {
   }
 
   useEffect(() => {
+    const getSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      setSession(data.session);
+
+      if (data.session?.user) {
+        await createUserIfNotExists(data.session.user);
+      }
+    };
+
     getSession();
-  }, [])
+  }, []);
 
   return (
     <div className="App">
