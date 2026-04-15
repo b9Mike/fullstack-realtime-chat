@@ -13,7 +13,7 @@ export const SendMessage = ({ scroll }) => {
     if(newMessage !== ""){
       const insert = await supabase.from("messages").insert({
         content: newMessage,
-        email: user
+        user_id: user
       })
       setNewMessage("");
     }
@@ -22,7 +22,7 @@ export const SendMessage = ({ scroll }) => {
 
   const getSession = async () => {
     const {data} = await supabase.auth.getSession();
-    setUser(data.session.user.email);
+    setUser(data.session.user.id);
     
   }
 

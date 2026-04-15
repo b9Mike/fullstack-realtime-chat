@@ -12,7 +12,7 @@ export const Messages = () => {
   
   const getSession = async () => {
     const {data} = await supabase.auth.getSession();
-    setUser(data.session.user.email);
+    setUser(data.session.user.id);
   }
 
   useEffect(() => {
@@ -20,7 +20,20 @@ export const Messages = () => {
   }, [])
 
   const callSupabase = async () => {
-    const {data} = await supabase.from('messages').select('*');
+    const { data } = await supabase
+    .from('messages')
+    .select(`
+      id,
+      content,
+      created_at,
+      user_id,
+      users (
+        id,
+        name,
+        email,
+        avatar_url
+      )
+    `);
     setMessages(data);
   }
 
@@ -29,7 +42,7 @@ export const Messages = () => {
   }, [])
 
   useEffect(() => {
-    const chanel = supabase
+    const channel = supabase
       .channel("messages-channel")
       .on(
         "postgres_changes",
@@ -38,17 +51,32 @@ export const Messages = () => {
           schema: "public",
           table: "messages"
         },
-        (payload) => {
-          const newMessage = payload.new;
-          setMessages(messages => [...messages, newMessage]);
+        async (payload) => {
+
+          const { data } = await supabase
+            .from("messages")
+            .select(`
+              id,
+              content,
+              created_at,
+              user_id,
+              users (
+                email,
+                avatar_url
+              )
+            `)
+            .eq("id", payload.new.id)
+            .single();
+
+          setMessages((prev) => [...prev, data]);
         }
       )
       .subscribe();
 
     return () => {
-      supabase.removeChannel(chanel);
-    }
-  }, [])
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
 
   useEffect(() => {
@@ -62,15 +90,16 @@ export const Messages = () => {
       <div className='content'>
         {
           messages && 
-          messages.map((item, index) => ( 
-            <Message 
+          messages.map((item, index) => (
+            <Message
               key={index}
               message={item.content}
               date={item.created_at}
-              email={item.email}
+              email={item.users?.email}
+              avatar={item.users?.avatar_url}
               user={user}
-              
-            /> 
+              user_id={item.user_id}
+            />
           ))
         }
       </div>
