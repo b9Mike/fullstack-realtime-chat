@@ -1,23 +1,27 @@
-import React, { useEffect } from 'react'
 import { formatDate } from '../helpers/formatDate'
-import { supabase } from '../supabaseClient'
+import { getColorFromEmail } from '../helpers/getColorFromEmail'
 
-export const Message = ({ message, date, email }) => {
-
-  const getSession = async () => {
-    const {data} = await supabase.auth.getSession();
-    console.log(data.session.user.email);
-  }
-
-  useEffect(() => {
-    getSession();
-  }, [])
-
+export const Message = ({ message, date, email, user, avatar }) => {
   return (
-    <div className='card'>
+  <div className={`message-row ${user === email ? "me" : ""}`}>
+
+    <img 
+      src={avatar || "/user.png"} 
+      alt="user image" 
+      className="user-image"
+    />
+
+    <div className={`card ${user === email ? "me" : ""}`}>
       <p>{message}</p>
       <span>{formatDate(date)}</span>
-      <span className='user-email'>{email}</span>
+      <span 
+        className='user-email' 
+        style={{ color: getColorFromEmail(email) }}
+      >
+        {email.split('@')[0]}
+      </span>
     </div>
-  )
+
+  </div>
+)
 }

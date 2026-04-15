@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Send from './icons/Send'
 import { supabase } from '../supabaseClient'
 
-export const SendMessage = () => {
+export const SendMessage = ({ scroll }) => {
 
   const [newMessage, setNewMessage] = useState("");
   const [user, setUser] = useState();
@@ -17,11 +17,13 @@ export const SendMessage = () => {
       })
       setNewMessage("");
     }
+
   }
 
   const getSession = async () => {
     const {data} = await supabase.auth.getSession();
     setUser(data.session.user.email);
+    
   }
 
   useEffect(() => {

@@ -111,21 +111,40 @@ button {
   padding: 10px;
 }
 
+.message-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.message-row.me {
+  flex-direction: row-reverse;
+}
+
 .card {
   background-color: #fff;
   width: fit-content;
+  max-width: 60%;
   padding: 17px 13px 7px;
-  border-radius: 8px;
-  margin-bottom: 5px;
-
-  text-align: right;
+  border-radius: 12px;
   position: relative;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  box-shadow: rgba(0,0,0,0.1) 0px 2px 8px;
+  text-align: left;
 }
+
 .card.me {
-  margin: 0 0 5px auto;
   background-color: #E3FED3;
 }
+
+.user-image {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
 .user-email {
   position: absolute;
   position: absolute;

@@ -9,8 +9,6 @@ export const Login = () => {
     })
   }
 
-  
-
   return (
     <section className="login">
       <button onClick={handleLogin}>Iniciar</button>

@@ -17,6 +17,9 @@ export const Header = () => {
 
   const getSession = async () => {
     const {data} = await supabase.auth.getSession();
+
+    if (!data.session) return;
+
     setUser(data.session.user.email);
     
     if(data.session.user.user_metadata.avatar_url){
@@ -35,8 +38,8 @@ export const Header = () => {
     <div className="header">
       <div className="left">
         <p className='logout' onClick={handleLogout} ><Arrow/></p>
-        <img src={image} alt="avatar" />
-        <p className='name'>@{user.split('@')[0]}
+        <img  src={image || "/user.png"} alt="avatar" />
+        <p className='name'>@{user ? user.split('@')[0] : ""}
           <span>Online</span>
         </p>
       </div>
